@@ -2,21 +2,10 @@ import { useEffect, useState } from "react";
 import { fetchData } from "./utils";
 import { Beer } from "../../types";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Button,
-  Checkbox,
-  Paper,
-  TextField,
-  Link,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Typography,
-} from "@mui/material";
+import { Button, Checkbox, Paper, TextField, Link } from "@mui/material";
 import styles from "./Home.module.css";
 import React from "react";
+import BreweryTable from "../Brewery/BreweryTable";
 
 const Home = () => {
   const [beerList, setBeerList] = useState<Array<Beer>>([]);
@@ -35,42 +24,7 @@ const Home = () => {
                 <TextField label="Filter..." variant="outlined" />
                 <Button variant="contained">Reload list</Button>
               </div>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="checkbox">
-                      <Checkbox />
-                    </TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Location</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {beerList.map((beer, index) => (
-                    <TableRow key={index.toString()}>
-                      <TableCell padding="checkbox">
-                        <Checkbox />
-                      </TableCell>
-                      <TableCell>
-                        <Link component={RouterLink} to={`/beer/${beer.id}`}>
-                          <Typography variant="body1">{beer.name}</Typography>
-                        </Link>
-                        <Typography variant="body2" color="text.secondary">
-                          {beer.brewery_type}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="body2" color="text.secondary">
-                          {beer.country}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {beer.city}, {beer.state || beer.state_province}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <BreweryTable breweriesList={beerList} />
             </div>
           </Paper>
 
