@@ -1,6 +1,5 @@
 import {
   Checkbox,
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -9,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { Beer } from "../../types";
 import BrewweryTableRow from "./BreweryTableRow";
 import Loader from "../../components/Loader";

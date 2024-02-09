@@ -1,4 +1,9 @@
-import { getBeerList, getRandomBeerList, searchBeerList } from "../../api";
+import {
+  getBeerList,
+  getBeerMetaData,
+  getRandomBeerList,
+  searchBeerList,
+} from "../../api";
 import { Beer } from "../../types";
 import handle from "../../utils/error";
 
@@ -21,14 +26,15 @@ type SearchDocument = {
 
 const searchBreweries = async ({
   query = "",
-  per_page = 10,
-  page = 1,
+  per_page,
+  page,
 }: SearchDocument) => {
   try {
     // to fetch the data when there is no query, we use the getBeerList function
+    const pageValue = page ? page + 1 : undefined;
     const { data } = await (!query.trim().length
-      ? getBeerList({ per_page, page })
-      : searchBeerList({ query, per_page, page }));
+      ? getBeerList({ per_page, page: pageValue })
+      : searchBeerList({ query, per_page, page: pageValue }));
 
     return data;
   } catch (error) {
@@ -36,4 +42,18 @@ const searchBreweries = async ({
   }
 };
 
-export { fetchData, searchBreweries };
+const getBreweriesCount = async ({ query, per_page, page }: SearchDocument) => {
+  try {
+    // to fetch the data when there is no query, we use the getBeerList function
+    const pageValue = page ? page + 1 : undefined;
+    const { data } = await (!query.trim().length
+      ? getBeerMetaData({ per_page, page: pageValue })
+      : searchBeerList({ query }));
+
+    return !query.trim().length ? data.total : data.length;
+  } catch (error) {
+    handle(error);
+  }
+};
+
+export { fetchData, searchBreweries, getBreweriesCount };
