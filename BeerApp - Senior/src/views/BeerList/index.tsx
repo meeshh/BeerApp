@@ -11,6 +11,7 @@ import {
 import SportsBar from "@mui/icons-material/SportsBar";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
 
 const BeerList = () => {
   const navigate = useNavigate();
@@ -22,11 +23,8 @@ const BeerList = () => {
   const onBeerClick = (id: string) => navigate(`/beer/${id}`);
 
   return (
-    <article>
+    <article style={{height: `calc(100% - ${TOPBAR_HEIGHT}px - ${FOOTER_HEIGHT}px)`, overflow: 'auto'}}>
       <section>
-        <header>
-          <h1>BeerList page</h1>
-        </header>
         <main>
           <List sx={{ overflowY: "auto", width: '100%' }}>
             {beerList.map((beer) => (
