@@ -13,7 +13,7 @@ const Beer = () => {
   useEffect(fetchData.bind(this, setBeer, id), [id]);
 
   return (
-    <article style={{height: '100%'}}>
+    <article>
       <section>
         <main style={{
           height: '100%',
