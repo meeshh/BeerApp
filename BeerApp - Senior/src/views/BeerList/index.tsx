@@ -1,9 +1,16 @@
-import { useEffect, useState } from 'react';
-import { Beer } from '../../types';
-import { fetchData } from './utils';
-import { Avatar, List, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
-import SportsBar from '@mui/icons-material/SportsBar';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Beer } from "../../types";
+import { fetchData } from "./utils";
+import {
+  Avatar,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+import SportsBar from "@mui/icons-material/SportsBar";
+import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const BeerList = () => {
   const navigate = useNavigate();
@@ -21,15 +28,21 @@ const BeerList = () => {
           <h1>BeerList page</h1>
         </header>
         <main>
-          <List>
+          <List sx={{ overflowY: "auto", width: '100%' }}>
             {beerList.map((beer) => (
-              <ListItemButton key={beer.id} onClick={onBeerClick.bind(this, beer.id)}>
+              <ListItemButton
+                key={beer.id}
+                onClick={onBeerClick.bind(this, beer.id)}
+              >
                 <ListItemAvatar>
                   <Avatar>
                     <SportsBar />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={beer.name} secondary={beer.brewery_type} />
+                <ListItemText
+                  primary={beer.name}
+                  secondary={beer.brewery_type}
+                />
               </ListItemButton>
             ))}
           </List>

@@ -58,7 +58,7 @@ export default function ResponsiveDrawer(props: Props) {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100%', }}>
       <TopBar drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
       <Box
         component='nav'
@@ -94,7 +94,7 @@ export default function ResponsiveDrawer(props: Props) {
         component='main'
         sx={{
           flexGrow: 1,
-          p: 3,
+          // p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)`, background: '#f7f7f7' },
         }}
       >

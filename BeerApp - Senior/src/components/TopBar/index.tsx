@@ -1,5 +1,6 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import React from 'react';
 
 interface Props {
   drawerWidth: number;
@@ -9,7 +10,7 @@ interface Props {
 const TopBar = (props: Props) => {
   return (
     <AppBar
-      position="fixed"
+      // position="fixed"
       sx={{
         width: { sm: `calc(100% - ${props.drawerWidth}px)` },
         ml: { sm: `${props.drawerWidth}px` },
@@ -25,9 +26,9 @@ const TopBar = (props: Props) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
+        {/* <Typography variant="h6" noWrap component="div">
           V
-        </Typography>
+        </Typography> */}
       </Toolbar>
     </AppBar>
     );

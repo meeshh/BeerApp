@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Beer as IBeer } from '../../types';
-import { fetchData } from './utils';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Beer as IBeer } from "../../types";
+import { fetchData } from "./utils";
+import { useParams } from "react-router-dom";
+import BeerCard from "./BeerCard";
+import React from "react";
 
 const Beer = () => {
   const { id } = useParams();
@@ -11,15 +13,15 @@ const Beer = () => {
   useEffect(fetchData.bind(this, setBeer, id), [id]);
 
   return (
-    <article>
+    <article style={{height: '100%'}}>
       <section>
-        <header>
-          <h1>{beer?.name}</h1>
-        </header>
-        <main>
-          <span>
-            <b>Type: </b> {beer?.brewery_type}
-          </span>
+        <main style={{
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <BeerCard beer={beer} />
         </main>
       </section>
     </article>
