@@ -1,6 +1,7 @@
 import { TYPE, SORT } from './';
 
 interface ApiParams {
+  query?: string;
   per_page?: number; // Int between 1 and 200. Default is 50.
   page?: number;
   sort?: SORT; // Not working with by_dist.

@@ -11,49 +11,47 @@ import {
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Beer } from "../../types";
+import BrewweryTableRow from "./BreweryTableRow";
+import Loader from "../../components/Loader";
 
 type BreweryTableProps = {
   breweriesList: Beer[];
+  isLoading: boolean;
 };
 
-const BreweryTable: React.FC<BreweryTableProps> = ({ breweriesList }) => {
+const BreweryTable: React.FC<BreweryTableProps> = ({
+  breweriesList,
+  isLoading,
+}) => {
+  if (isLoading) return <Loader />;
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox />
-          </TableCell>
-          <TableCell>Name</TableCell>
-          <TableCell>Location</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {breweriesList.map((beer, index) => (
-          <TableRow key={index.toString()}>
+    <>
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
             <TableCell padding="checkbox">
               <Checkbox />
             </TableCell>
-            <TableCell>
-              <Link component={RouterLink} to={`/beer/${beer.id}`}>
-                <Typography variant="body1">{beer.name}</Typography>
-              </Link>
-              <Typography variant="body2" color="text.secondary">
-                {beer.brewery_type}
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="body2" color="text.secondary">
-                {beer.country}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {beer.city}, {beer.state || beer.state_province}
-              </Typography>
-            </TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Location</TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {breweriesList.map((brewery) => (
+            <BrewweryTableRow key={brewery.id} brewery={brewery} />
+          ))}
+        </TableBody>
+      </Table>
+      {!breweriesList.length && (
+        <Typography
+          sx={{ textAlign: "center", p: 3 }}
+          variant="h4"
+          color="text.secondary"
+        >
+          No breweries found
+        </Typography>
+      )}
+    </>
   );
 };
 export default BreweryTable;

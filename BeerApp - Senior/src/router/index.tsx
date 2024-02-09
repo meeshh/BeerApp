@@ -6,6 +6,7 @@ import BeerList from '../views/BeerList';
 import Beer from '../views/Beer';
 import Footer from '../components/Footer';
 import Menu from '../components/Menu';
+import React from 'react';
 
 const Router = () => (
   <BrowserRouter>
