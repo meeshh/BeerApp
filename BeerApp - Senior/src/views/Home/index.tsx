@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { getBreweriesCount, searchBreweries } from "./utils";
+import { searchBreweries } from "./utils";
 import { Paper, Box, TablePagination } from "@mui/material";
 import React from "react";
 import BreweryTable from "../Brewery/BreweryTable";
 import { useQuery } from "@tanstack/react-query";
 import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
 import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
+import { getBeerMetaData } from "../../api";
 
 const Home = () => {
   // const [beerList, setBeerList] = useState<Array<Beer>>([]);
@@ -16,23 +17,20 @@ const Home = () => {
   const [page, setPage] = useState(0);
 
   const searchDocument = {
-    query: searchQuery,
+    by_name: searchQuery,
     page,
     per_page,
   };
 
-  // this to be used to get total count
-  // unfortunately, the API does not provide a way to get the total count when using /search
-  // only when using /breweries so we cannot send a query and get the total count
   const {
-    data: breweriesCount = 0,
+    data: breweriesCount = { data: { total: 0 } },
     isFetching: isFetchingBreweriesCount,
     refetch: fetchAllBreweriesCount,
   } = useQuery({
     enabled: false,
     queryKey: ["breweriesCount"],
     queryFn: () => {
-      return getBreweriesCount(searchDocument);
+      return getBeerMetaData(searchDocument);
     },
   });
 
@@ -100,7 +98,7 @@ const Home = () => {
             >
               <TablePagination
                 component="div"
-                count={breweriesCount}
+                count={breweriesCount.data?.total}
                 page={page}
                 onPageChange={handlePageChange}
                 rowsPerPage={per_page}

@@ -19,22 +19,19 @@ const fetchData = (setData: (data: Array<Beer>) => void) => {
 };
 
 type SearchDocument = {
-  query: string;
+  by_name: string;
   per_page?: number;
   page?: number;
 };
 
 const searchBreweries = async ({
-  query = "",
+  by_name = "",
   per_page,
   page,
 }: SearchDocument) => {
   try {
-    // to fetch the data when there is no query, we use the getBeerList function
     const pageValue = page ? page + 1 : undefined;
-    const { data } = await (!query.trim().length
-      ? getBeerList({ per_page, page: pageValue })
-      : searchBeerList({ query, per_page, page: pageValue }));
+    const { data } = await getBeerList({ by_name, per_page, page: pageValue });
 
     return data;
   } catch (error) {
@@ -42,18 +39,4 @@ const searchBreweries = async ({
   }
 };
 
-const getBreweriesCount = async ({ query, per_page, page }: SearchDocument) => {
-  try {
-    // to fetch the data when there is no query, we use the getBeerList function
-    const pageValue = page ? page + 1 : undefined;
-    const { data } = await (!query.trim().length
-      ? getBeerMetaData({ per_page, page: pageValue })
-      : searchBeerList({ query }));
-
-    return !query.trim().length ? data.total : data.length;
-  } catch (error) {
-    handle(error);
-  }
-};
-
-export { fetchData, searchBreweries, getBreweriesCount };
+export { fetchData, searchBreweries };
