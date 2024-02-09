@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { searchBreweries } from "./utils";
-import { Paper, Box, TablePagination } from "@mui/material";
+import { Paper, Box, TablePagination, Grid } from "@mui/material";
 import React from "react";
 import BreweryTable from "../Brewery/BreweryTable";
 import { useQuery } from "@tanstack/react-query";
 import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
 import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
 import { getBeerMetaData } from "../../api";
+import Filter from "../../components/Filter";
 
 const Home = () => {
   // const [beerList, setBeerList] = useState<Array<Beer>>([]);
@@ -15,9 +16,11 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [per_page, setPerPage] = useState(10);
   const [page, setPage] = useState(0);
+  const [by_type, setType] = useState(undefined);
 
   const searchDocument = {
     by_name: searchQuery,
+    by_type,
     page,
     per_page,
   };
@@ -51,7 +54,14 @@ const Home = () => {
     !isFetching && fetchBreweries();
     !isFetchingBreweriesCount && fetchAllBreweriesCount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchBreweries, fetchAllBreweriesCount, searchQuery, page, per_page]);
+  }, [
+    fetchBreweries,
+    fetchAllBreweriesCount,
+    searchQuery,
+    page,
+    per_page,
+    by_type,
+  ]);
 
   const changeQuery = (query: string) => {
     setSearchQuery(query);
@@ -72,6 +82,10 @@ const Home = () => {
     setPage(0);
   };
 
+  const setFilter = (breweryType) => {
+    setType(breweryType);
+  };
+
   return (
     <article
       style={{
@@ -81,30 +95,37 @@ const Home = () => {
     >
       <section>
         <main>
-          <Paper sx={{ p: 2 }} elevation={0}>
-            <BreweryTableToolbar
-              numSelected={0}
-              reload={fetchBreweries}
-              setSearchQuery={changeQuery}
-            />
-            <BreweryTable breweriesList={beerList} isLoading={isLoading} />
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                mt: 2,
-              }}
-            >
-              <TablePagination
-                component="div"
-                count={breweriesCount.data?.total}
-                page={page}
-                onPageChange={handlePageChange}
-                rowsPerPage={per_page}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+          <Paper sx={{ p: 2 }} elevation={0} component={Grid} container>
+            <Grid item xs={12} md={2}>
+              <Filter setFilter={setFilter} />
+            </Grid>
+            <Grid item xs={12} md={10}>
+              <BreweryTableToolbar
+                numSelected={0}
+                reload={fetchBreweries}
+                setSearchQuery={changeQuery}
               />
-            </Box>
+              <BreweryTable breweriesList={beerList} isLoading={isLoading} />
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mt: 2,
+                }}
+              >
+                <TablePagination
+                  component="div"
+                  count={parseInt(breweriesCount.data.total)}
+                  page={page}
+                  onPageChange={handlePageChange}
+                  rowsPerPage={per_page}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Box>
+            </Grid>
           </Paper>
 
           {/* <Paper>
