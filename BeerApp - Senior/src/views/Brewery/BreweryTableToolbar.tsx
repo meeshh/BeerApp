@@ -14,6 +14,7 @@ import { Search as SearchIcon } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import debounce from "lodash.debounce";
 import { blue, grey } from "@mui/material/colors";
+import Sorter from "../../components/Sorter";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -133,11 +134,7 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         {numSelected > 0 ? numSelected + "selected" : null}
       </Typography>
 
-      <Tooltip title="Sort by">
-        <Button variant="text" color="inherit" disableElevation>
-          Name
-        </Button>
-      </Tooltip>
+      <Sorter />
 
       <Divider orientation="vertical" sx={{ mx: 1 }} />
 
