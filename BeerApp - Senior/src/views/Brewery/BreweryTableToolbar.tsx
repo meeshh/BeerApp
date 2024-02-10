@@ -13,6 +13,7 @@ import React from "react";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import debounce from "lodash.debounce";
+import { blue, grey } from "@mui/material/colors";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,20 +59,34 @@ type BreweryTableToolbarProps = {
   numSelected: number;
   reload?: () => void;
   setSearchQuery: (query: string) => void;
+  filterProps?: {
+    setDisplayFilter: React.Dispatch<React.SetStateAction<boolean>>;
+    displayFilter: boolean;
+  };
 };
 
 const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
   numSelected,
   reload,
   setSearchQuery,
+  filterProps,
 }) => {
+  const { setDisplayFilter, displayFilter } = filterProps || {};
+
   const debounceChange = debounce((value) => {
     setSearchQuery(value);
   }, 500);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     debounceChange(e.target.value);
+  };
+
+  const handleToggleFilter = () => {
+    if (setDisplayFilter) {
+      setDisplayFilter((prev) => !prev);
+    }
   };
 
   return (
@@ -80,12 +95,21 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         bgcolor: "secondary.main",
-        color: "primary.contrastText",
-        borderRadius: 3
+        color: "primary",
+        borderRadius: 3,
       }}
     >
-      <Tooltip title="Filter list">
-        <IconButton>
+      <Tooltip title={displayFilter ? "Hide filter" : "Show filter"}>
+        <IconButton
+          onClick={handleToggleFilter}
+          sx={{
+            bgcolor: displayFilter ? blue[800] : "transparent",
+            color: displayFilter ? "white" : "inherit",
+            ":hover": {
+              bgcolor: displayFilter ? blue[600] : grey[500],
+            },
+          }}
+        >
           <FilterList />
         </IconButton>
       </Tooltip>
@@ -115,7 +139,7 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         </Button>
       </Tooltip>
 
-      <Divider orientation="vertical" sx={{mx: 1}} />
+      <Divider orientation="vertical" sx={{ mx: 1 }} />
 
       <Tooltip title="Reload">
         <IconButton onClick={reload}>

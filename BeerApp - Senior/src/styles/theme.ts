@@ -7,7 +7,7 @@ const theme = createTheme({
       main: blue[800],
     },
     secondary: {
-      main: grey[600],
+      main: grey[400],
     },
   },
   components: {

@@ -18,6 +18,7 @@ const Home = () => {
   const [per_page, setPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [by_type, setType] = useState<TYPE | undefined>(undefined);
+  const [displayFilter, setDisplayFilter] = React.useState(true);
 
   const searchDocument = {
     by_name: searchQuery,
@@ -96,15 +97,27 @@ const Home = () => {
     >
       <section>
         <main>
-          <Paper sx={{ p: 2 }} elevation={0} component={Grid} spacing={2} container>
-            <Grid item xs={12} md={2}>
-              <Filter setFilter={setFilter} />
-            </Grid>
-            <Grid item xs={12} md={10} >
+          <Paper
+            sx={{ p: 2 }}
+            elevation={0}
+            component={Grid}
+            spacing={2}
+            container
+          >
+            {displayFilter && (
+              <Grid item xs={12} md={2}>
+                <Filter setFilter={setFilter} defaultValue={by_type} />
+              </Grid>
+            )}
+            <Grid item xs={12} md={displayFilter ? 10 : 12}>
               <BreweryTableToolbar
                 numSelected={0}
                 reload={fetchBreweries}
                 setSearchQuery={changeQuery}
+                filterProps={{
+                  setDisplayFilter,
+                  displayFilter,
+                }}
               />
               <BreweryTable breweriesList={beerList} isLoading={isLoading} />
             </Grid>

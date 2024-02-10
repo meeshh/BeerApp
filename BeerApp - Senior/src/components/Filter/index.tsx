@@ -28,10 +28,13 @@ const breweryTypes: TYPE[] = [
 
 type FilterProps = {
   setFilter: (filter: TYPE) => void;
+  defaultValue: TYPE;
 };
 
-const Filter: React.FC<FilterProps> = ({ setFilter }) => {
-  const [selectedValue, setSelectedValue] = React.useState<TYPE | "">("");
+const Filter: React.FC<FilterProps> = ({ setFilter, defaultValue }) => {
+  const [selectedValue, setSelectedValue] = React.useState<TYPE | "">(
+    defaultValue || ""
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = (event.target as HTMLInputElement).value as TYPE;
@@ -53,7 +56,11 @@ const Filter: React.FC<FilterProps> = ({ setFilter }) => {
       }}
     >
       <CardHeader
-        sx={{ bgcolor: "secondary.main", color: 'primary.contrastText', borderRadius: 3, }}
+        sx={{
+          bgcolor: "secondary.main",
+          color: "primary",
+          borderRadius: 3,
+        }}
         title="Filter"
         action={
           <Tooltip title="Clear filter">
