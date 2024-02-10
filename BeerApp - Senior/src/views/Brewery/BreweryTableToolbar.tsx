@@ -1,5 +1,7 @@
-import { Delete, FilterList, Refresh } from "@mui/icons-material";
+import { FilterList, Refresh } from "@mui/icons-material";
 import {
+  Button,
+  Divider,
   IconButton,
   InputBase,
   Toolbar,
@@ -77,10 +79,16 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        bgcolor: "primary.main",
+        bgcolor: "secondary.main",
         color: "primary.contrastText",
+        borderRadius: 3
       }}
     >
+      <Tooltip title="Filter list">
+        <IconButton>
+          <FilterList />
+        </IconButton>
+      </Tooltip>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
@@ -101,24 +109,19 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         {numSelected > 0 ? numSelected + "selected" : null}
       </Typography>
 
+      <Tooltip title="Sort by">
+        <Button variant="text" color="inherit" disableElevation>
+          Name
+        </Button>
+      </Tooltip>
+
+      <Divider orientation="vertical" sx={{mx: 1}} />
+
       <Tooltip title="Reload">
         <IconButton onClick={reload}>
           <Refresh />
         </IconButton>
       </Tooltip>
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <Delete />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterList />
-          </IconButton>
-        </Tooltip>
-      )}
     </Toolbar>
   );
 };

@@ -8,7 +8,8 @@ type TYPE =
   | 'bar'
   | 'contract'
   | 'proprietor'
-  | 'closed';
+  | 'closed'
+  | undefined;
 
 type SORT = 'asc' | 'desc';
 

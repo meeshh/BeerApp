@@ -8,6 +8,7 @@ import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
 import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
 import { getBeerMetaData } from "../../api";
 import Filter from "../../components/Filter";
+import { TYPE } from "../../types";
 
 const Home = () => {
   // const [beerList, setBeerList] = useState<Array<Beer>>([]);
@@ -16,7 +17,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [per_page, setPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [by_type, setType] = useState(undefined);
+  const [by_type, setType] = useState<TYPE | undefined>(undefined);
 
   const searchDocument = {
     by_name: searchQuery,
@@ -82,7 +83,7 @@ const Home = () => {
     setPage(0);
   };
 
-  const setFilter = (breweryType) => {
+  const setFilter = (breweryType: TYPE | undefined) => {
     setType(breweryType);
   };
 
@@ -95,11 +96,11 @@ const Home = () => {
     >
       <section>
         <main>
-          <Paper sx={{ p: 2 }} elevation={0} component={Grid} container>
+          <Paper sx={{ p: 2 }} elevation={0} component={Grid} spacing={2} container>
             <Grid item xs={12} md={2}>
               <Filter setFilter={setFilter} />
             </Grid>
-            <Grid item xs={12} md={10}>
+            <Grid item xs={12} md={10} >
               <BreweryTableToolbar
                 numSelected={0}
                 reload={fetchBreweries}
