@@ -7,13 +7,27 @@ import {
   Divider,
   ToggleButtonGroup,
   ToggleButton,
+  Typography,
 } from "@mui/material";
 import React from "react";
-import { SORT } from "../../types";
+import { grey } from "@mui/material/colors";
+import { SORT_DIRECTION, SORT_TYPE } from "../../types";
 
 const sorters = ["name", "type"];
 
-const Sorter = () => {
+type SorterProps = {
+  sorterProps: {
+    sortDirection: SORT_DIRECTION;
+    setSortDirection: React.Dispatch<React.SetStateAction<SORT_DIRECTION>>;
+    sortType: SORT_TYPE;
+    setSortType: React.Dispatch<React.SetStateAction<SORT_TYPE>>;
+  };
+};
+
+const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
+  const { sortDirection, setSortDirection, sortType, setSortType } =
+    sorterProps || {};
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,25 +37,37 @@ const Sorter = () => {
     setAnchorEl(null);
   };
 
-  const [sortDirection, setSortDirection] = React.useState<SORT | null>("asc");
-
   const handleSortDirection = (
     event: React.MouseEvent<HTMLElement>,
-    newSortDirection: SORT | null
+    newSortDirection: SORT_DIRECTION
   ) => {
     setSortDirection(newSortDirection);
   };
 
+  const handleSortType = (sortType) => () => {
+    setSortType(sortType);
+  };
+
   return (
     <>
+      <Typography variant="caption" color="textSecondary" sx={{ width: 100 }}>
+        Sort by
+      </Typography>
       <Tooltip title="Sort by">
         <Button
-          variant="text"
-          color="inherit"
+          size="small"
+          variant="contained"
+          color={open ? "primary" : "inherit"}
           disableElevation
           onClick={handleClick}
+          sx={{ px: 4, width: 150 }}
         >
-          Name
+          <span style={{ margin: 4 }}>{sortType.toUpperCase()}</span>
+          {sortDirection === "asc" ? (
+            <ArrowUpward fontSize="small" />
+          ) : (
+            <ArrowDownward fontSize="small" />
+          )}
         </Button>
       </Tooltip>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -66,7 +92,17 @@ const Sorter = () => {
         </MenuItem>
         <Divider />
         {sorters.map((sorter) => (
-          <MenuItem key={sorter} sx={{ minWidth: 100 }}>
+          <MenuItem
+            key={sorter}
+            sx={{
+              minWidth: 100,
+              bgcolor: sortType === sorter ? grey[300] : "",
+              ":hover": {
+                bgcolor: grey[400],
+              },
+            }}
+            onClick={handleSortType(sorter)}
+          >
             {sorter.toUpperCase()}
           </MenuItem>
         ))}

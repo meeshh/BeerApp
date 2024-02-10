@@ -15,6 +15,7 @@ import { styled } from "@mui/material/styles";
 import debounce from "lodash.debounce";
 import { blue, grey } from "@mui/material/colors";
 import Sorter from "../../components/Sorter";
+import { SORT_DIRECTION, SORT_TYPE } from "../../types";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,6 +65,12 @@ type BreweryTableToolbarProps = {
     setDisplayFilter: React.Dispatch<React.SetStateAction<boolean>>;
     displayFilter: boolean;
   };
+  sorterProps: {
+    sortDirection: SORT_DIRECTION;
+    setSortDirection: React.Dispatch<React.SetStateAction<SORT_DIRECTION>>;
+    sortType: SORT_TYPE;
+    setSortType: React.Dispatch<React.SetStateAction<SORT_TYPE>>;
+  };
 };
 
 const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
@@ -71,6 +78,7 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
   reload,
   setSearchQuery,
   filterProps,
+  sorterProps,
 }) => {
   const { setDisplayFilter, displayFilter } = filterProps || {};
 
@@ -134,7 +142,7 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         {numSelected > 0 ? numSelected + "selected" : null}
       </Typography>
 
-      <Sorter />
+      <Sorter sorterProps={sorterProps} />
 
       <Divider orientation="vertical" sx={{ mx: 1 }} />
 

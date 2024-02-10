@@ -2,7 +2,7 @@ import {
   getBeerList,
   getRandomBeerList,
 } from "../../api";
-import { Beer, TYPE } from "../../types";
+import { Beer, SORT, TYPE } from "../../types";
 import handle from "../../utils/error";
 
 const fetchData = (setData: (data: Array<Beer>) => void) => {
@@ -21,6 +21,7 @@ type SearchDocument = {
   by_type?: TYPE;
   per_page?: number;
   page?: number;
+  sort?: SORT | undefined;
 };
 
 const searchBreweries = async ({
@@ -28,10 +29,11 @@ const searchBreweries = async ({
   per_page,
   by_type,
   page,
+  sort,
 }: SearchDocument) => {
   try {
     const pageValue = page ? page + 1 : undefined;
-    const { data } = await getBeerList({ by_name, per_page, page: pageValue, by_type });
+    const { data } = await getBeerList({ by_name, per_page, page: pageValue, by_type, sort });
 
     return data;
   } catch (error) {

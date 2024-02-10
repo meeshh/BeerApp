@@ -8,7 +8,7 @@ import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
 import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
 import { getBeerMetaData } from "../../api";
 import Filter from "../../components/Filter";
-import { TYPE } from "../../types";
+import { SORT, TYPE } from "../../types";
 
 const Home = () => {
   // const [beerList, setBeerList] = useState<Array<Beer>>([]);
@@ -19,12 +19,15 @@ const Home = () => {
   const [page, setPage] = useState(0);
   const [by_type, setType] = useState<TYPE | undefined>(undefined);
   const [displayFilter, setDisplayFilter] = React.useState(true);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortType, setSortType] = useState<"name" | "type">("name");
 
   const searchDocument = {
     by_name: searchQuery,
     by_type,
     page,
     per_page,
+    sort: `${sortType}:${sortDirection}` as SORT,
   };
 
   const {
@@ -63,6 +66,8 @@ const Home = () => {
     page,
     per_page,
     by_type,
+    sortDirection,
+    sortType,
   ]);
 
   const changeQuery = (query: string) => {
@@ -117,6 +122,12 @@ const Home = () => {
                 filterProps={{
                   setDisplayFilter,
                   displayFilter,
+                }}
+                sorterProps={{
+                  sortDirection,
+                  setSortDirection,
+                  sortType,
+                  setSortType,
                 }}
               />
               <BreweryTable breweriesList={beerList} isLoading={isLoading} />
