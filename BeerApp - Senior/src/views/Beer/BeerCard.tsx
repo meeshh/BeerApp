@@ -17,6 +17,7 @@ import BreweryLabel from "./BreweryLabel";
 import BreweryMap from "./BreweryMap";
 import BreweryPhone from "./BreweryPhone";
 import BreweryWebsite from "./BreweryWebsite";
+import { FavoritesContext } from "../../contexts/FavoritesContext";
 
 const avatarSize = 57;
 const cardWidth = 500;
@@ -26,11 +27,15 @@ type BeerCardProps = {
 };
 
 const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
+  const { selectedFavorites, setSelectedFavorites } =
+    React.useContext(FavoritesContext);
+
   if (!beer) {
     return null;
   }
 
   const {
+    id = "",
     name = "",
     brewery_type = "",
     country = "",
@@ -42,6 +47,16 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
     phone = "",
     website_url = "",
   } = beer;
+
+  console.log(selectedFavorites, id);
+
+  const toggleFavorites = () => {
+    if (selectedFavorites.includes(id)) {
+      setSelectedFavorites(selectedFavorites.filter((item) => item !== id));
+    } else {
+      setSelectedFavorites([...selectedFavorites, id]);
+    }
+  };
 
   return (
     <Card
@@ -77,8 +92,10 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
       </CardContent>
       <CardActions disableSpacing>
         <Tooltip title="Add to favorites" placement="top-start">
-          <IconButton aria-label="add to favorites">
-            <Favorite />
+          <IconButton aria-label="add to favorites" onClick={toggleFavorites}>
+            <Favorite
+              color={selectedFavorites.includes(id) ? "error" : "inherit"}
+            />
           </IconButton>
         </Tooltip>
         <Tooltip title="Catalogue" placement="top-start">

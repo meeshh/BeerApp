@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { searchBreweries } from "./utils";
 import { Paper, TablePagination, Grid } from "@mui/material";
 import BreweryTable from "../Brewery/BreweryTable";
@@ -8,23 +8,23 @@ import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
 import { getBeerMetaData } from "../../api";
 import Filter from "../../components/Filter";
 import { SORT, TYPE } from "../../types";
-import { FavoritesContextProvider } from "../../contexts/FavoritesContext";
+import { FavoritesContext } from "../../contexts/FavoritesContext";
 import FavoritesTableToolbar from "../Brewery/FavoritesTableToolbar";
 
 const Home = () => {
   //! can optimize and set one state with a reducer
 
-  // persist favorites in browser's localstorage
-  const initialFavorites = localStorage.getItem("selectedBreweries")?.split(",");
   const isDisplayFavorites = localStorage.getItem("displayFavorites");
 
-  const [selectedFavorites, setSelectedFavorites] = useState<string[]>(initialFavorites || []);
+  const { selectedFavorites } = useContext(FavoritesContext);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [per_page, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
   const [by_type, setType] = useState<TYPE | undefined>(undefined);
   const [displayFilter, setDisplayFilter] = useState<boolean>(true);
-  const [displayFavorites, setDisplayFavorites] = useState<boolean>(Boolean(isDisplayFavorites) || false);
+  const [displayFavorites, setDisplayFavorites] = useState<boolean>(
+    Boolean(isDisplayFavorites) || false
+  );
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortType, setSortType] = useState<"name" | "type">("name");
 
@@ -139,68 +139,61 @@ const Home = () => {
       }}
     >
       <section>
-        <FavoritesContextProvider
-          value={{
-            selectedFavorites,
-            setSelectedFavorites,
-          }}
-        >
-          <main>
-            <Paper
-              sx={{ p: 2 }}
-              elevation={0}
-              component={Grid}
-              spacing={2}
-              container
-            >
-              {displayFilter && (
-                <Grid item xs={12} md={2}>
-                  <Filter setFilter={setFilter} defaultValue={by_type} />
-                </Grid>
-              )}
-              <Grid item xs={12} md={mainGridSize()}>
-                <BreweryTableToolbar
-                  setSearchQuery={changeQuery}
-                  filterProps={{
-                    setDisplayFilter,
-                    displayFilter,
-                  }}
-                  sorterProps={{
-                    sortDirection,
-                    setSortDirection,
-                    sortType,
-                    setSortType,
-                    setPage,
-                  }}
-                  favoritesProps={{
-                    displayFavorites,
-                    setDisplayFavorites,
-                    fetchFavorites,
-                  }}
-                />
-                <BreweryTable breweriesList={beerList} isLoading={isLoading} />
-                <TablePagination
-                  component="div"
-                  count={parseInt(breweriesCount.data.total)}
-                  page={page}
-                  onPageChange={handlePageChange}
-                  rowsPerPage={per_page}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
+        <main>
+          <Paper
+            sx={{ p: 2 }}
+            elevation={0}
+            component={Grid}
+            spacing={2}
+            container
+          >
+            {displayFilter && (
+              <Grid item xs={12} md={2}>
+                <Filter setFilter={setFilter} defaultValue={by_type} />
+              </Grid>
+            )}
+            <Grid item xs={12} md={mainGridSize()}>
+              <BreweryTableToolbar
+                setSearchQuery={changeQuery}
+                filterProps={{
+                  setDisplayFilter,
+                  displayFilter,
+                }}
+                sorterProps={{
+                  sortDirection,
+                  setSortDirection,
+                  sortType,
+                  setSortType,
+                  setPage,
+                }}
+                favoritesProps={{
+                  displayFavorites,
+                  setDisplayFavorites,
+                  fetchFavorites,
+                }}
+              />
+              <BreweryTable breweriesList={beerList} isLoading={isLoading} />
+              <TablePagination
+                component="div"
+                count={parseInt(breweriesCount.data.total)}
+                page={page}
+                onPageChange={handlePageChange}
+                rowsPerPage={per_page}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Grid>
+            {displayFavorites && (
+              <Grid item xs={12} md={4}>
+                <FavoritesTableToolbar />
+                <BreweryTable
+                  isFavorites
+                  breweriesList={favoritesList}
+                  isLoading={false}
                 />
               </Grid>
-              {displayFavorites && (
-                <Grid item xs={12} md={4}>
-                  <FavoritesTableToolbar />
-                  <BreweryTable
-                    isFavorites
-                    breweriesList={favoritesList}
-                    isLoading={false}
-                  />
-                </Grid>
-              )}
-            </Paper>
-          </main>
-        </FavoritesContextProvider>
+            )}
+          </Paper>
+        </main>
       </section>
     </article>
   );

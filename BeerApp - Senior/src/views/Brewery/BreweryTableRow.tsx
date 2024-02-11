@@ -34,9 +34,6 @@ const BreweryTableRow: React.FC<BreweryTableRowProps> = ({
     }
   };
 
-  // //TODO look into this
-  // selectedFavorites.includes(id);
-
   return (
     <TableRow hover>
       <TableCell padding="checkbox">
