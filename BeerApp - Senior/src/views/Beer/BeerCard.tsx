@@ -9,7 +9,7 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { Favorite, Share } from "@mui/icons-material";
+import { Favorite, MenuBook } from "@mui/icons-material";
 
 import BreweryAddress from "./BreweryAddress";
 import BreweryLocation from "./BreweryLocation";
@@ -47,8 +47,6 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
     phone = "",
     website_url = "",
   } = beer;
-
-  console.log(selectedFavorites, id);
 
   const toggleFavorites = () => {
     if (selectedFavorites.includes(id)) {
@@ -99,8 +97,8 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
           </IconButton>
         </Tooltip>
         <Tooltip title="Catalogue" placement="top-start">
-          <IconButton aria-label="share">
-            <Share />
+          <IconButton>
+            <MenuBook />
           </IconButton>
         </Tooltip>
       </CardActions>
