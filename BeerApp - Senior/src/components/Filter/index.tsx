@@ -26,12 +26,15 @@ const breweryTypes: TYPE[] = [
   "closed",
 ];
 
-type FilterProps = {
+type FilterComponentProps = {
   setFilter: (filter: TYPE) => void;
   defaultValue: TYPE;
 };
 
-const Filter: React.FC<FilterProps> = ({ setFilter, defaultValue }) => {
+const Filter: React.FC<FilterComponentProps> = ({
+  setFilter,
+  defaultValue,
+}) => {
   const [selectedValue, setSelectedValue] = React.useState<TYPE | "">(
     defaultValue || ""
   );
@@ -51,7 +54,7 @@ const Filter: React.FC<FilterProps> = ({ setFilter, defaultValue }) => {
     <Card
       elevation={0}
       sx={{
-        bgcolor: grey[300],
+        bgcolor: grey[200],
         borderRadius: 3,
       }}
     >

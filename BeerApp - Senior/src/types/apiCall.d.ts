@@ -12,6 +12,7 @@ interface ApiParams {
   by_postal?: number | string; // 5-digit, or 9-digit with underscore
   by_country?: string;
   by_type?: TYPE;
+  by_ids?: string;
 }
 
 export type { ApiParams };

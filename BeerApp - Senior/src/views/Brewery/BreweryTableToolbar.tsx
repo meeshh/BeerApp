@@ -1,28 +1,22 @@
-import { FilterList, Refresh } from "@mui/icons-material";
 import {
-  Button,
-  Divider,
-  IconButton,
-  InputBase,
-  Toolbar,
-  Tooltip,
-  Typography,
-  alpha,
-} from "@mui/material";
+  Favorite,
+  FilterList,
+  Search as SearchIcon,
+} from "@mui/icons-material";
+import { IconButton, InputBase, Toolbar, Tooltip, alpha } from "@mui/material";
 import React from "react";
-import { Search as SearchIcon } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import debounce from "lodash.debounce";
 import { blue, grey } from "@mui/material/colors";
 import Sorter from "../../components/Sorter";
-import { SORT_DIRECTION, SORT_TYPE } from "../../types";
+import { FAVORITE_PROPS, FILTER_PROPS, SORTER_PROPS } from "../../types";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.75),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: theme.palette.common.white,
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -58,29 +52,20 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 type BreweryTableToolbarProps = {
-  numSelected: number;
-  reload?: () => void;
   setSearchQuery: (query: string) => void;
-  filterProps?: {
-    setDisplayFilter: React.Dispatch<React.SetStateAction<boolean>>;
-    displayFilter: boolean;
-  };
-  sorterProps: {
-    sortDirection: SORT_DIRECTION;
-    setSortDirection: React.Dispatch<React.SetStateAction<SORT_DIRECTION>>;
-    sortType: SORT_TYPE;
-    setSortType: React.Dispatch<React.SetStateAction<SORT_TYPE>>;
-  };
+  filterProps?: FILTER_PROPS;
+  sorterProps: SORTER_PROPS;
+  favoritesProps: FAVORITE_PROPS;
 };
 
 const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
-  numSelected,
-  reload,
   setSearchQuery,
   filterProps,
   sorterProps,
+  favoritesProps,
 }) => {
   const { setDisplayFilter, displayFilter } = filterProps || {};
+  const { setDisplayFavorites, displayFavorites } = favoritesProps || {};
 
   const debounceChange = debounce((value) => {
     setSearchQuery(value);
@@ -96,6 +81,12 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
     if (setDisplayFilter) {
       setDisplayFilter((prev) => !prev);
     }
+  };
+
+  const handleDisplayFavorites = () => {
+    const displayFlag = !displayFavorites;
+    setDisplayFavorites(displayFlag);
+    localStorage.setItem("displayFavorites", displayFlag.toString() || "false");
   };
 
   return (
@@ -133,22 +124,17 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         />
       </Search>
 
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        color="inherit"
-        variant="subtitle1"
-        component="div"
-      >
-        {numSelected > 0 ? numSelected + "selected" : null}
-      </Typography>
+      <div style={{ flex: "1" }} />
 
       <Sorter sorterProps={sorterProps} />
 
-      <Divider orientation="vertical" sx={{ mx: 1 }} />
-
-      <Tooltip title="Reload">
-        <IconButton onClick={reload}>
-          <Refresh />
+      <Tooltip title="Show Favorites">
+        <IconButton
+          color={displayFavorites ? "error" : "inherit"}
+          onClick={handleDisplayFavorites}
+          sx={{ mx: 1 }}
+        >
+          <Favorite />
         </IconButton>
       </Tooltip>
     </Toolbar>

@@ -7,25 +7,19 @@ import {
   Divider,
   ToggleButtonGroup,
   ToggleButton,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import { grey } from "@mui/material/colors";
-import { SORT_DIRECTION, SORT_TYPE } from "../../types";
+import { SORTER_PROPS, SORT_DIRECTION } from "../../types";
 
 const sorters = ["name", "type"];
 
 type SorterProps = {
-  sorterProps: {
-    sortDirection: SORT_DIRECTION;
-    setSortDirection: React.Dispatch<React.SetStateAction<SORT_DIRECTION>>;
-    sortType: SORT_TYPE;
-    setSortType: React.Dispatch<React.SetStateAction<SORT_TYPE>>;
-  };
+  sorterProps: SORTER_PROPS;
 };
 
 const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
-  const { sortDirection, setSortDirection, sortType, setSortType } =
+  const { sortDirection, setSortDirection, sortType, setSortType, setPage } =
     sorterProps || {};
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -42,17 +36,16 @@ const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
     newSortDirection: SORT_DIRECTION
   ) => {
     setSortDirection(newSortDirection);
+    setPage(0);
   };
 
   const handleSortType = (sortType) => () => {
     setSortType(sortType);
+    setPage(0);
   };
 
   return (
     <>
-      <Typography variant="caption" color="textSecondary" sx={{ width: 100 }}>
-        Sort by
-      </Typography>
       <Tooltip title="Sort by">
         <Button
           size="small"
@@ -60,7 +53,7 @@ const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
           color={open ? "primary" : "inherit"}
           disableElevation
           onClick={handleClick}
-          sx={{ px: 4, width: 150 }}
+          sx={{ px: 4, width: 100 }}
         >
           <span style={{ margin: 4 }}>{sortType.toUpperCase()}</span>
           {sortDirection === "asc" ? (

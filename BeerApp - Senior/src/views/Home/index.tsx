@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { searchBreweries } from "./utils";
-import { Paper, Box, TablePagination, Grid } from "@mui/material";
-import React from "react";
+import { Paper, TablePagination, Grid } from "@mui/material";
 import BreweryTable from "../Brewery/BreweryTable";
 import { useQuery } from "@tanstack/react-query";
 import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
@@ -9,16 +8,23 @@ import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
 import { getBeerMetaData } from "../../api";
 import Filter from "../../components/Filter";
 import { SORT, TYPE } from "../../types";
+import { FavoritesContextProvider } from "../../contexts/FavoritesContext";
+import FavoritesTableToolbar from "../Brewery/FavoritesTableToolbar";
 
 const Home = () => {
-  // const [beerList, setBeerList] = useState<Array<Beer>>([]);
-  // const [savedList] = useState<Array<Beer>>([]);
+  //! can optimize and set one state with a reducer
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [per_page, setPerPage] = useState(10);
-  const [page, setPage] = useState(0);
+  // persist favorites in browser's localstorage
+  const initialFavorites = localStorage.getItem("selectedBreweries")?.split(",");
+  const isDisplayFavorites = localStorage.getItem("displayFavorites");
+
+  const [selectedFavorites, setSelectedFavorites] = useState<string[]>(initialFavorites || []);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [per_page, setPerPage] = useState<number>(10);
+  const [page, setPage] = useState<number>(0);
   const [by_type, setType] = useState<TYPE | undefined>(undefined);
-  const [displayFilter, setDisplayFilter] = React.useState(true);
+  const [displayFilter, setDisplayFilter] = useState<boolean>(true);
+  const [displayFavorites, setDisplayFavorites] = useState<boolean>(Boolean(isDisplayFavorites) || false);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortType, setSortType] = useState<"name" | "type">("name");
 
@@ -28,6 +34,10 @@ const Home = () => {
     page,
     per_page,
     sort: `${sortType}:${sortDirection}` as SORT,
+  };
+
+  const favoritesDocument = {
+    by_ids: selectedFavorites.join(","),
   };
 
   const {
@@ -51,7 +61,16 @@ const Home = () => {
     enabled: false,
     queryKey: ["breweries"],
     queryFn: () => {
-      return searchBreweries(searchDocument);
+      return !isFetching && searchBreweries(searchDocument);
+    },
+  });
+
+  const { data: favoritesList = [], refetch: fetchFavorites } = useQuery({
+    enabled: false,
+    queryKey: ["favorites"],
+    queryFn: () => {
+      localStorage.setItem("selectedBreweries", favoritesDocument.by_ids || "");
+      return searchBreweries(favoritesDocument);
     },
   });
 
@@ -69,6 +88,11 @@ const Home = () => {
     sortDirection,
     sortType,
   ]);
+
+  useEffect(() => {
+    // when selectedFavorites is empty, we don't need to fetch anything as the searchDocument will bring back a full array
+    !!selectedFavorites.length && fetchFavorites();
+  }, [selectedFavorites, fetchFavorites]);
 
   const changeQuery = (query: string) => {
     setSearchQuery(query);
@@ -91,6 +115,20 @@ const Home = () => {
 
   const setFilter = (breweryType: TYPE | undefined) => {
     setType(breweryType);
+    setPage(0);
+  };
+
+  const mainGridSize = () => {
+    if (displayFavorites && displayFilter) {
+      return 6;
+    }
+    if (displayFavorites) {
+      return 8;
+    }
+    if (displayFilter) {
+      return 10;
+    }
+    return 12;
   };
 
   return (
@@ -101,46 +139,46 @@ const Home = () => {
       }}
     >
       <section>
-        <main>
-          <Paper
-            sx={{ p: 2 }}
-            elevation={0}
-            component={Grid}
-            spacing={2}
-            container
-          >
-            {displayFilter && (
-              <Grid item xs={12} md={2}>
-                <Filter setFilter={setFilter} defaultValue={by_type} />
-              </Grid>
-            )}
-            <Grid item xs={12} md={displayFilter ? 10 : 12}>
-              <BreweryTableToolbar
-                numSelected={0}
-                reload={fetchBreweries}
-                setSearchQuery={changeQuery}
-                filterProps={{
-                  setDisplayFilter,
-                  displayFilter,
-                }}
-                sorterProps={{
-                  sortDirection,
-                  setSortDirection,
-                  sortType,
-                  setSortType,
-                }}
-              />
-              <BreweryTable breweriesList={beerList} isLoading={isLoading} />
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mt: 2,
-                }}
-              >
+        <FavoritesContextProvider
+          value={{
+            selectedFavorites,
+            setSelectedFavorites,
+          }}
+        >
+          <main>
+            <Paper
+              sx={{ p: 2 }}
+              elevation={0}
+              component={Grid}
+              spacing={2}
+              container
+            >
+              {displayFilter && (
+                <Grid item xs={12} md={2}>
+                  <Filter setFilter={setFilter} defaultValue={by_type} />
+                </Grid>
+              )}
+              <Grid item xs={12} md={mainGridSize()}>
+                <BreweryTableToolbar
+                  setSearchQuery={changeQuery}
+                  filterProps={{
+                    setDisplayFilter,
+                    displayFilter,
+                  }}
+                  sorterProps={{
+                    sortDirection,
+                    setSortDirection,
+                    sortType,
+                    setSortType,
+                    setPage,
+                  }}
+                  favoritesProps={{
+                    displayFavorites,
+                    setDisplayFavorites,
+                    fetchFavorites,
+                  }}
+                />
+                <BreweryTable breweriesList={beerList} isLoading={isLoading} />
                 <TablePagination
                   component="div"
                   count={parseInt(breweriesCount.data.total)}
@@ -149,32 +187,20 @@ const Home = () => {
                   rowsPerPage={per_page}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-              </Box>
-            </Grid>
-          </Paper>
-
-          {/* <Paper>
-            <div className={styles.listContainer}>
-              <div className={styles.listHeader}>
-                <h3>Saved items</h3>
-                <Button variant="contained" size="small">
-                  Remove all items
-                </Button>
-              </div>
-              <ul className={styles.list}>
-                {savedList.map((beer, index) => (
-                  <li key={index.toString()}>
-                    <Checkbox />
-                    <Link component={RouterLink} to={`/beer/${beer.id}`}>
-                      {beer.name}
-                    </Link>
-                  </li>
-                ))}
-                {!savedList.length && <p>No saved items</p>}
-              </ul>
-            </div>
-          </Paper> */}
-        </main>
+              </Grid>
+              {displayFavorites && (
+                <Grid item xs={12} md={4}>
+                  <FavoritesTableToolbar />
+                  <BreweryTable
+                    isFavorites
+                    breweriesList={favoritesList}
+                    isLoading={false}
+                  />
+                </Grid>
+              )}
+            </Paper>
+          </main>
+        </FavoritesContextProvider>
       </section>
     </article>
   );

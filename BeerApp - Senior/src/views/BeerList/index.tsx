@@ -20,7 +20,7 @@ const BeerList = () => {
     >
       <section>
         <main>
-          <BreweryTable breweriesList={beerList} />
+          <BreweryTable breweriesList={beerList} isLoading={false} />
         </main>
       </section>
     </article>

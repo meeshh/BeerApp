@@ -1,36 +1,71 @@
-import { Checkbox, Link, TableCell, TableRow, Typography } from "@mui/material";
+import {
+  Checkbox,
+  IconButton,
+  Link,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import React from "react";
 import { Beer } from "../../types";
+import { FavoritesContext } from "../../contexts/FavoritesContext";
+import { Clear } from "@mui/icons-material";
 
 type BreweryTableRowProps = {
   brewery: Beer;
+  isFavorites?: boolean;
 };
 
-const BrewweryTableRow: React.FC<BreweryTableRowProps> = ({ brewery }) => {
+const BreweryTableRow: React.FC<BreweryTableRowProps> = ({
+  brewery,
+  isFavorites = false,
+}) => {
+  const { id, name, city, state, country, brewery_type, state_province } =
+    brewery || {};
+  const { selectedFavorites, setSelectedFavorites } =
+    React.useContext(FavoritesContext);
+
+  const handleCheckbox = () => {
+    if (selectedFavorites.includes(id)) {
+      setSelectedFavorites(selectedFavorites.filter((item) => item !== id));
+    } else {
+      setSelectedFavorites([...selectedFavorites, id]);
+    }
+  };
+
+  // //TODO look into this
+  // selectedFavorites.includes(id);
+
   return (
     <TableRow hover>
       <TableCell padding="checkbox">
-        <Checkbox />
+        {!isFavorites ? (
+          <Checkbox onChange={handleCheckbox} checked={selectedFavorites.includes(id)} />
+        ) : (
+          <IconButton onClick={handleCheckbox}>
+            <Clear />
+          </IconButton>
+        )}
       </TableCell>
       <TableCell>
-        <Link component={RouterLink} to={`/beer/${brewery.id}`}>
-          <Typography variant="body1">{brewery.name}</Typography>
+        <Link component={RouterLink} to={`/beer/${id}`}>
+          <Typography variant="body1">{name}</Typography>
         </Link>
         <Typography variant="body2" color="text.secondary">
-          {brewery.brewery_type}
+          {brewery_type}
         </Typography>
       </TableCell>
       <TableCell>
         <Typography variant="body2" color="text.secondary">
-          {brewery.country}
+          {country}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {brewery.city}, {brewery.state || brewery.state_province}
+          {city}, {state || state_province}
         </Typography>
       </TableCell>
     </TableRow>
   );
 };
 
-export default BrewweryTableRow;
+export default BreweryTableRow;

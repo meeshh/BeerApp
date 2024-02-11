@@ -7,11 +7,9 @@ We will discuss the proposed solution during the interview. You should be ready 
 
 - [ ] Beer page ~ style a cool beer page
 - [ ] Home page favourites ~ add a list of favourite beers, do not clean after page reload
-- [ ] Beer list filtering + pagination + sorting
-    - [ ] `/meta` the metadata holds the number of beers ==>
+- [x] Beer list filtering + pagination + sorting
 - [ ] Progressive Web App, offline
 
 - [x] migrate from create react app to vite
-- [ ] add additional features provided by the api
 - [ ] optimize - mainly lint and optimize types
 - [x] run a security scan for the modules and upgrade what is needed
