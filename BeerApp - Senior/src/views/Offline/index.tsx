@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { Paper, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 
 const Offline = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -7,25 +8,29 @@ const Offline = () => {
   const setOffline = () => setIsOnline(false);
 
   useEffect(() => {
-    window.addEventListener('online', setOnline);
-    window.addEventListener('offline', setOffline);
+    window.addEventListener("online", setOnline);
+    window.addEventListener("offline", setOffline);
 
     return () => {
-      window.addEventListener('online', setOnline);
-      window.addEventListener('offline', setOffline);
+      window.addEventListener("online", setOnline);
+      window.addEventListener("offline", setOffline);
     };
   }, []);
 
   return isOnline ? null : (
     <article>
-      <section>
-        <header>
-          <h1>You are offline</h1>
-        </header>
-        <main>
-          <span>App needs internet to start working</span>
-        </main>
-      </section>
+      <Paper
+        component="section"
+        elevation={3}
+        sx={{ padding: 4, backgroundColor: "warning.main" }}
+      >
+        <Typography variant="h5" gutterBottom component="header">
+          You are offline
+        </Typography>
+        <Typography variant="body1" gutterBottom component="main">
+          App needs internet to start working
+        </Typography>
+      </Paper>
     </article>
   );
 };
