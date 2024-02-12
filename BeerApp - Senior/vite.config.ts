@@ -17,9 +17,9 @@ export default defineConfig({
         "icons/masked-icon.png",
       ],
       manifest: {
-        name: "React-vite-app",
-        short_name: "react-vite-app",
-        description: "I am a simple vite app",
+        name: "BeerWiki",
+        short_name: "beer-wiki",
+        description: "A wiki for breweries",
         icons: [
           {
             src: "icons/android-chrome-192x192.png",
@@ -43,7 +43,7 @@ export default defineConfig({
             purpose: "any maskable",
           },
         ],
-        theme_color: "#1565c0",
+        theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
         scope: "/",
