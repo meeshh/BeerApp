@@ -1,15 +1,15 @@
 import { grey } from "@mui/material/colors";
-import styles from "./Footer.module.css";
 
 const Footer = () => {
   return (
     <footer
-      className={styles.container}
       style={{
         backgroundColor: grey[300],
+        width: '100%',
+        padding: 16
       }}
     >
-      <div className={styles.inner}>&#169; {new Date().getFullYear()} </div>
+      <div style={{textAlign: 'center'}}>&#169; {new Date().getFullYear()} </div>
     </footer>
   );
 };

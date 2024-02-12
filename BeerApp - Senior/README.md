@@ -5,11 +5,11 @@ We will discuss the proposed solution during the interview. You should be ready 
 
 ## Recruitment Task
 
-- [ ] Beer page ~ style a cool beer page
+- [x] Beer page ~ style a cool beer page
 - [x] Home page favourites ~ add a list of favourite beers, do not clean after page reload
 - [x] Beer list filtering + pagination + sorting
-- [ ] Progressive Web App, offline
+- [x] Progressive Web App, offline
 
 - [x] migrate from create react app to vite
-- [ ] optimize - mainly lint and optimize types
+- [x] optimize - mainly lint and optimize types
 - [x] run a security scan for the modules and upgrade what is needed

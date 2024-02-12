@@ -12,15 +12,15 @@ import { FavoritesContext } from "../../contexts/FavoritesContext";
 import FavoritesTableToolbar from "../Brewery/FavoritesTableToolbar";
 
 const Home = () => {
-  //! can optimize and set one state with a reducer
+  //! can optimize and set one state with a reducer for better readability
 
   const isDisplayFavorites = localStorage.getItem("displayFavorites");
 
   const { selectedFavorites } = useContext(FavoritesContext);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [per_page, setPerPage] = useState<number>(10);
+  const [perPage, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
-  const [by_type, setType] = useState<TYPE | undefined>(undefined);
+  const [byType, setByType] = useState<TYPE | undefined>(undefined);
   const [displayFilter, setDisplayFilter] = useState<boolean>(true);
   const [displayFavorites, setDisplayFavorites] = useState<boolean>(
     Boolean(isDisplayFavorites) || false
@@ -30,9 +30,9 @@ const Home = () => {
 
   const searchDocument = {
     by_name: searchQuery,
-    by_type,
+    by_type: byType,
     page,
-    per_page,
+    per_page: perPage,
     sort: `${sortType}:${sortDirection}` as SORT,
   };
 
@@ -78,8 +78,8 @@ const Home = () => {
     fetchBreweries,
     searchQuery,
     page,
-    per_page,
-    by_type,
+    perPage,
+    byType,
     sortDirection,
     sortType,
   ]);
@@ -87,7 +87,7 @@ const Home = () => {
   // this effect should run only when the filter or the search query change
   useEffect(() => {
     fetchAllBreweriesCount();
-  }, [fetchAllBreweriesCount, searchQuery, by_type]);
+  }, [fetchAllBreweriesCount, searchQuery, byType]);
 
   useEffect(() => {
     // when selectedFavorites is empty, we don't need to fetch anything as the searchDocument will bring back a full array
@@ -114,7 +114,7 @@ const Home = () => {
   };
 
   const setFilter = (breweryType: TYPE | undefined) => {
-    setType(breweryType);
+    setByType(breweryType);
     setPage(0);
   };
 
@@ -149,7 +149,7 @@ const Home = () => {
           >
             {displayFilter && (
               <Grid item xs={12} md={2}>
-                <Filter setFilter={setFilter} defaultValue={by_type} />
+                <Filter setFilter={setFilter} defaultValue={byType} />
               </Grid>
             )}
             <Grid item xs={12} md={mainGridSize()}>
@@ -178,7 +178,7 @@ const Home = () => {
                 count={parseInt(breweriesCount.data.total)}
                 page={page}
                 onPageChange={handlePageChange}
-                rowsPerPage={per_page}
+                rowsPerPage={perPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </Grid>
