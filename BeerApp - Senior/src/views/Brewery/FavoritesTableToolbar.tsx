@@ -24,7 +24,7 @@ const FavoritesTableToolbar = () => {
         Favorites
       </Typography>
       <Tooltip title="Delete all">
-        <IconButton onClick={handleRemoveAll}>
+        <IconButton size="large" onClick={handleRemoveAll}>
           <DeleteSweep />
         </IconButton>
       </Tooltip>

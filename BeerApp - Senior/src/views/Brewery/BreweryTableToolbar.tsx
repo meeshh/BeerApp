@@ -22,7 +22,6 @@ const Search = styled("div")(({ theme }) => ({
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
     width: "auto",
   },
 }));
@@ -103,6 +102,7 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
         <IconButton
           onClick={handleToggleFilter}
           sx={{
+            mr: 1,
             bgcolor: displayFilter ? blue[800] : "transparent",
             color: displayFilter ? "white" : "inherit",
             ":hover": {

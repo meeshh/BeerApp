@@ -10,6 +10,7 @@ import Filter from "../../components/Filter";
 import { SORT, TYPE } from "../../types";
 import { FavoritesContext } from "../../contexts/FavoritesContext";
 import FavoritesTableToolbar from "../Brewery/FavoritesTableToolbar";
+import { grey } from "@mui/material/colors";
 
 const Home = () => {
   //! can optimize and set one state with a reducer for better readability
@@ -53,7 +54,7 @@ const Home = () => {
 
   const {
     data: beerList = [],
-    isLoading,
+    isFetching: isLoading,
     refetch: fetchBreweries,
   } = useQuery({
     enabled: false,
@@ -134,6 +135,7 @@ const Home = () => {
   return (
     <article
       style={{
+        backgroundColor: grey[300],
         height: `calc(100% - ${TOPBAR_HEIGHT}px - ${FOOTER_HEIGHT}px)`,
         overflow: "auto",
       }}
@@ -141,7 +143,7 @@ const Home = () => {
       <section>
         <main>
           <Paper
-            sx={{ p: 2 }}
+            sx={{ p: 2, bgcolor: "transparent" }}
             elevation={0}
             component={Grid}
             spacing={2}

@@ -11,6 +11,7 @@ import { Beer } from "../../types";
 import BreweryTableRow from "./BreweryTableRow";
 import Loader from "../../components/Loader";
 import { FavoritesContext } from "../../contexts/FavoritesContext";
+import { grey } from "@mui/material/colors";
 
 type BreweryTableProps = {
   breweriesList: Beer[];
@@ -33,12 +34,37 @@ const BreweryTable: React.FC<BreweryTableProps> = ({
 
   return (
     <>
-      <Table stickyHeader>
-        <TableHead>
+      <Table
+        sx={{
+          backgroundColor: "white",
+          mt: 1,
+          borderRadius: 3,
+          overflow: "hidden",
+        }}
+        stickyHeader
+      >
+        <TableHead sx={{ backgroundColor: grey[200] }}>
           <TableRow>
-            <TableCell padding="checkbox" />
-            <TableCell sx={{ fontSize: 20, fontWeight: "600" }}>Name</TableCell>
-            <TableCell sx={{ fontSize: 20, fontWeight: "600" }}>
+            <TableCell
+              sx={{ backgroundColor: "transparent" }}
+              padding="checkbox"
+            />
+            <TableCell
+              sx={{
+                backgroundColor: "transparent",
+                fontSize: 20,
+                fontWeight: "600",
+              }}
+            >
+              Name
+            </TableCell>
+            <TableCell
+              sx={{
+                backgroundColor: "transparent",
+                fontSize: 20,
+                fontWeight: "600",
+              }}
+            >
               Location
             </TableCell>
           </TableRow>

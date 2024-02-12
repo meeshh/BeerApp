@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { TYPE } from "../../types";
-import { Clear } from "@mui/icons-material";
+import { RestartAlt } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
 
 const breweryTypes: TYPE[] = [
@@ -36,7 +36,7 @@ const Filter: React.FC<FilterComponentProps> = ({
   defaultValue,
 }) => {
   const [selectedValue, setSelectedValue] = React.useState<TYPE | "">(
-    defaultValue || ""
+    defaultValue ?? ""
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +54,8 @@ const Filter: React.FC<FilterComponentProps> = ({
     <Card
       elevation={0}
       sx={{
-        bgcolor: grey[200],
         borderRadius: 3,
+        backgroundColor: "transparent",
       }}
     >
       <CardHeader
@@ -68,12 +68,12 @@ const Filter: React.FC<FilterComponentProps> = ({
         action={
           <Tooltip title="Clear filter">
             <IconButton aria-label="settings" onClick={handleResetFilter}>
-              <Clear />
+              <RestartAlt />
             </IconButton>
           </Tooltip>
         }
       />
-      <CardContent>
+      <CardContent sx={{ bgcolor: grey[200], borderRadius: 3, mt: 1 }}>
         <RadioGroup onChange={handleChange} value={selectedValue}>
           {breweryTypes.map((type) => (
             <FormControlLabel
