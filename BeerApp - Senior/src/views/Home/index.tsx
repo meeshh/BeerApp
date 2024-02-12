@@ -70,7 +70,7 @@ const Home = () => {
     queryKey: ["favorites"],
     queryFn: () => {
       localStorage.setItem("selectedBreweries", favoritesDocument.by_ids || "");
-      return searchBreweries(favoritesDocument);
+      return selectedFavorites.length ? searchBreweries(favoritesDocument) : [];
     },
   });
 

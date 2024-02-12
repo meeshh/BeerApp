@@ -7,6 +7,7 @@ const FavoritesTableToolbar = () => {
   const { setSelectedFavorites } = React.useContext(FavoritesContext);
   const handleRemoveAll = () => {
     setSelectedFavorites([]);
+    localStorage.removeItem("selectedBreweries");
   };
 
   return (
