@@ -14,6 +14,6 @@ export const countryCodeMap: CountryCodeMap = {
   "United States": "US",
 };
 
-export const getCountryCode = (countryName) => {
+export const getCountryCode = (countryName: string) => {
   return countryCodeMap[countryName];
 };

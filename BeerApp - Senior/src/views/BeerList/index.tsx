@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Beer } from "../../types";
 import { fetchData } from "./utils";
-import React from "react";
 import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
 import BreweryTable from "../Brewery/BreweryTable";
 

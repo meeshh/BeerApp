@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import React from "react";
 import { grey } from "@mui/material/colors";
-import { SORTER_PROPS, SORT_DIRECTION } from "../../types";
+import { SORTER_PROPS, SORT_DIRECTION, SORT_TYPE } from "../../types";
 
-const sorters = ["name", "type"];
+const sorters: SORT_TYPE[] = ["name", "type"];
 
 type SorterProps = {
   sorterProps: SORTER_PROPS;
@@ -32,14 +32,14 @@ const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
   };
 
   const handleSortDirection = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newSortDirection: SORT_DIRECTION
   ) => {
     setSortDirection(newSortDirection);
     setPage(0);
   };
 
-  const handleSortType = (sortType) => () => {
+  const handleSortType = (sortType: SORT_TYPE) => () => {
     setSortType(sortType);
     setPage(0);
   };
@@ -84,7 +84,7 @@ const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
           </ToggleButtonGroup>
         </MenuItem>
         <Divider />
-        {sorters.map((sorter) => (
+        {sorters.map((sorter: SORT_TYPE) => (
           <MenuItem
             key={sorter}
             sx={{

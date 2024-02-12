@@ -64,10 +64,10 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
   sorterProps,
   favoritesProps,
 }) => {
-  const { setDisplayFilter, displayFilter } = filterProps || {};
-  const { setDisplayFavorites, displayFavorites } = favoritesProps || {};
+  const { setDisplayFilter, displayFilter } = filterProps ?? {};
+  const { setDisplayFavorites, displayFavorites } = favoritesProps ?? {};
 
-  const debounceChange = debounce((value) => {
+  const debounceChange = debounce((value: string) => {
     setSearchQuery(value);
   }, 500);
 

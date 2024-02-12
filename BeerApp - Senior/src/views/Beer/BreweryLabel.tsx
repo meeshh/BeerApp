@@ -37,7 +37,7 @@ const BeerLabel: React.FC<BeerLabelProps> = ({
       }}
     >
       <Avatar
-        src={`/icons/favicon-${avatarSize}.png`}
+        src={`/icons/favicon-${avatarSize}x${avatarSize}.png`}
         imgProps={{ style: { width: '60%', height: '60%' } }}
         sx={{ width: avatarWrapperSize, height: avatarWrapperSize, backgroundColor: grey[500] }}
       />

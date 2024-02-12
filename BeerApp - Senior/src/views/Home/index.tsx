@@ -42,7 +42,6 @@ const Home = () => {
 
   const {
     data: breweriesCount = { data: { total: 0 } },
-    isFetching: isFetchingBreweriesCount,
     refetch: fetchAllBreweriesCount,
   } = useQuery({
     enabled: false,
@@ -55,13 +54,12 @@ const Home = () => {
   const {
     data: beerList = [],
     isLoading,
-    isFetching,
     refetch: fetchBreweries,
   } = useQuery({
     enabled: false,
     queryKey: ["breweries"],
     queryFn: () => {
-      return !isFetching && searchBreweries(searchDocument);
+      return searchBreweries(searchDocument);
     },
   });
 
@@ -75,12 +73,9 @@ const Home = () => {
   });
 
   useEffect(() => {
-    !isFetching && fetchBreweries();
-    !isFetchingBreweriesCount && fetchAllBreweriesCount();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchBreweries();
   }, [
     fetchBreweries,
-    fetchAllBreweriesCount,
     searchQuery,
     page,
     per_page,
@@ -88,6 +83,11 @@ const Home = () => {
     sortDirection,
     sortType,
   ]);
+
+  // this effect should run only when the filter or the search query change
+  useEffect(() => {
+    fetchAllBreweriesCount();
+  }, [fetchAllBreweriesCount, searchQuery, by_type]);
 
   useEffect(() => {
     // when selectedFavorites is empty, we don't need to fetch anything as the searchDocument will bring back a full array

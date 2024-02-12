@@ -1,30 +1,17 @@
 import { AppBar, Avatar, Toolbar } from "@mui/material";
-// import MenuIcon from "@mui/icons-material/Menu";
-import React from "react";
 interface Props {
   drawerWidth: number;
-  handleDrawerToggle: () => void;
 }
 
 const TopBar = (props: Props) => {
   return (
     <AppBar
       sx={{
-        // width: { sm: `calc(100% - ${props.drawerWidth}px)` },
         width: { sm: "100%" },
         ml: { sm: `${props.drawerWidth}px` },
       }}
     >
       <Toolbar>
-        {/* <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={props.handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: "none" } }}
-        >
-          <MenuIcon />
-        </IconButton> */}
         <Avatar
           variant="rounded"
           sx={{
@@ -35,7 +22,7 @@ const TopBar = (props: Props) => {
               sm: 0,
             },
           }}
-          src="/icons/favicon-32.png"
+          src="/icons/favicon-32x32.png"
         />
       </Toolbar>
     </AppBar>

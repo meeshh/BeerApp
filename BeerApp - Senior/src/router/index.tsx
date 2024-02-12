@@ -6,8 +6,8 @@ import BeerList from "../views/BeerList";
 import Beer from "../views/Beer";
 import Footer from "../components/Footer";
 import Menu from "../components/Menu";
-import React, { useState } from "react";
 import { FavoritesContextProvider } from "../contexts/FavoritesContext";
+import { useState } from "react";
 
 const Router = () => {
   // persist favorites in browser's localstorage
