@@ -21,7 +21,7 @@ type SearchDocument = {
   by_type?: TYPE;
   per_page?: number;
   page?: number;
-  sort?: SORT | undefined;
+  sort?: SORT;
   by_ids?: string;
 };
 
