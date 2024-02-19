@@ -13,3 +13,24 @@ We will discuss the proposed solution during the interview. You should be ready 
 - [x] migrate from create react app to vite
 - [x] optimize - mainly lint and optimize types
 - [x] run a security scan for the modules and upgrade what is needed
+
+## Get Started
+
+Create a `.env` file with the following variables
+
+```
+REACT_APP_API=https://api.openbrewerydb.org/v1/
+REACT_APP_API_MAPS_KEY=MAPBOX_API
+```
+
+Install the packages
+`npm install`
+
+Run the dev server
+`npm run start`
+
+Build
+`npm run build`
+
+Server the build
+`npm run preview`
