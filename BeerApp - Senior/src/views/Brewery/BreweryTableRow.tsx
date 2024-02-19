@@ -23,15 +23,32 @@ const BreweryTableRow: FC<BreweryTableRowProps> = ({
 }) => {
   const { id, name, city, state, country, brewery_type, state_province } =
     brewery || {};
-  const { selectedFavorites, setSelectedFavorites } =
-    useContext(FavoritesContext);
+  const {
+    selectedFavorites,
+    setSelectedFavorites,
+    setSelectedFavoritesList,
+    selectedFavoritesList,
+  } = useContext(FavoritesContext);
 
   const handleCheckbox = () => {
-    if (selectedFavorites.includes(id)) {
-      setSelectedFavorites(selectedFavorites.filter((item) => item !== id));
-    } else {
-      setSelectedFavorites([...selectedFavorites, id]);
+    const updatedSelectedFavorites = selectedFavorites.includes(id)
+      ? selectedFavorites.filter((itemId) => itemId !== id)
+      : [...selectedFavorites, id];
+
+    setSelectedFavorites(updatedSelectedFavorites);
+
+    const updatedSelectedFavoritesList = selectedFavoritesList.filter(
+      (item) => item.id !== id
+    );
+    if (!selectedFavorites.includes(id)) {
+      updatedSelectedFavoritesList.push(brewery);
     }
+    setSelectedFavoritesList(updatedSelectedFavoritesList);
+
+    localStorage.setItem(
+      "selectedBreweries",
+      updatedSelectedFavorites.join(",")
+    );
   };
 
   return (

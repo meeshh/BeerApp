@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import Menu from "../components/Menu";
 import { FavoritesContextProvider } from "../contexts/FavoritesContext";
 import { useEffect, useState } from "react";
+import { Beer as BeerType } from "../types";
 
 const Router = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -34,11 +35,17 @@ const Router = () => {
     initialFavorites ?? []
   );
 
+  const [selectedFavoritesList, setSelectedFavoritesList] = useState<
+    BeerType[]
+  >([]);
+
   return (
     <FavoritesContextProvider
       value={{
         selectedFavorites,
         setSelectedFavorites,
+        selectedFavoritesList,
+        setSelectedFavoritesList,
       }}
     >
       <BrowserRouter>

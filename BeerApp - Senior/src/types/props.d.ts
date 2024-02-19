@@ -12,7 +12,7 @@ export type SORTER_PROPS = {
 export type FAVORITE_PROPS = {
   setDisplayFavorites: Dispatch<SetStateAction<boolean>>;
   displayFavorites: boolean;
-  fetchFavorites: () => void;
+  // fetchFavorites: () => void;
 };
 
 export type FILTER_PROPS = {

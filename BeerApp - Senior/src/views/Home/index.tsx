@@ -32,7 +32,9 @@ const Home: FC<HomeProps> = ({ isOnline }) => {
 
   const isDisplayFavorites = localStorage.getItem("displayFavorites");
 
-  const { selectedFavorites } = useContext(FavoritesContext);
+  const { selectedFavorites, selectedFavoritesList, setSelectedFavoritesList } =
+    useContext(FavoritesContext);
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [perPage, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
@@ -79,14 +81,18 @@ const Home: FC<HomeProps> = ({ isOnline }) => {
     },
   });
 
-  const { data: favoritesList = [], refetch: fetchFavorites } = useQuery({
-    enabled: false,
+  const { data: favoritesList = [], isFetching: isFavoritesFetching } = useQuery({
     queryKey: ["favorites"],
     queryFn: () => {
-      localStorage.setItem("selectedBreweries", favoritesDocument.by_ids || "");
-      return selectedFavorites.length ? searchBreweries(favoritesDocument) : [];
+      return selectedFavorites.filter((item) => item !== "").length
+        ? searchBreweries(favoritesDocument)
+        : [];
     },
   });
+
+  useEffect(() => {
+    setSelectedFavoritesList(favoritesList);
+  }, [favoritesList, setSelectedFavoritesList]);
 
   useEffect(() => {
     fetchBreweries();
@@ -104,11 +110,6 @@ const Home: FC<HomeProps> = ({ isOnline }) => {
   useEffect(() => {
     fetchAllBreweriesCount();
   }, [fetchAllBreweriesCount, searchQuery, byType]);
-
-  useEffect(() => {
-    // when selectedFavorites is empty, we don't need to fetch anything as the searchDocument will bring back a full array
-    !!selectedFavorites.length && fetchFavorites();
-  }, [selectedFavorites, fetchFavorites]);
 
   const changeQuery = (query: string) => {
     setSearchQuery(query);
@@ -188,7 +189,6 @@ const Home: FC<HomeProps> = ({ isOnline }) => {
                 favoritesProps={{
                   displayFavorites,
                   setDisplayFavorites,
-                  fetchFavorites,
                 }}
               />
               <BreweryTable breweriesList={beerList} isLoading={isLoading} />
@@ -206,8 +206,8 @@ const Home: FC<HomeProps> = ({ isOnline }) => {
                 <FavoritesTableToolbar />
                 <BreweryTable
                   isFavorites
-                  breweriesList={favoritesList}
-                  isLoading={false}
+                  breweriesList={selectedFavoritesList}
+                  isLoading={isFavoritesFetching}
                 />
               </Grid>
             )}
