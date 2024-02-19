@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  FC,
   MouseEvent,
   useContext,
   useEffect,
@@ -9,7 +10,11 @@ import { searchBreweries } from "./utils";
 import { Paper, TablePagination, Grid } from "@mui/material";
 import BreweryTable from "../Brewery/BreweryTable";
 import { useQuery } from "@tanstack/react-query";
-import { FOOTER_HEIGHT, TOPBAR_HEIGHT } from "../../styles/constants";
+import {
+  FOOTER_HEIGHT,
+  OFFLINE_SECTION_HEIGHT,
+  TOPBAR_HEIGHT,
+} from "../../styles/constants";
 import BreweryTableToolbar from "../Brewery/BreweryTableToolbar";
 import { getBeerMetaData } from "../../api";
 import Filter from "../../components/Filter";
@@ -18,7 +23,11 @@ import { FavoritesContext } from "../../contexts/FavoritesContext";
 import FavoritesTableToolbar from "../Brewery/FavoritesTableToolbar";
 import { grey } from "@mui/material/colors";
 
-const Home = () => {
+type HomeProps = {
+  isOnline: boolean;
+};
+
+const Home: FC<HomeProps> = ({ isOnline }) => {
   //! can optimize and set one state with a reducer for better readability
 
   const isDisplayFavorites = localStorage.getItem("displayFavorites");
@@ -142,7 +151,9 @@ const Home = () => {
     <article
       style={{
         backgroundColor: grey[300],
-        height: `calc(100% - ${TOPBAR_HEIGHT}px - ${FOOTER_HEIGHT}px)`,
+        height: `calc(100% - ${TOPBAR_HEIGHT}px - ${FOOTER_HEIGHT}px - ${
+          isOnline ? 0 : OFFLINE_SECTION_HEIGHT
+        }px)`,
         overflow: "auto",
       }}
     >

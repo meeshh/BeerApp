@@ -7,16 +7,31 @@ import Beer from "../views/Beer";
 import Footer from "../components/Footer";
 import Menu from "../components/Menu";
 import { FavoritesContextProvider } from "../contexts/FavoritesContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Router = () => {
+  const [isOnline, setIsOnline] = useState(true);
+
+  const setOnline = () => setIsOnline(true);
+  const setOffline = () => setIsOnline(false);
+
+  useEffect(() => {
+    window.addEventListener("online", setOnline);
+    window.addEventListener("offline", setOffline);
+
+    return () => {
+      window.addEventListener("online", setOnline);
+      window.addEventListener("offline", setOffline);
+    };
+  }, []);
+
   // persist favorites in browser's localstorage
   const initialFavorites = localStorage
     .getItem("selectedBreweries")
     ?.split(",");
 
   const [selectedFavorites, setSelectedFavorites] = useState<string[]>(
-    initialFavorites || []
+    initialFavorites ?? []
   );
 
   return (
@@ -28,9 +43,9 @@ const Router = () => {
     >
       <BrowserRouter>
         <Menu>
-          <Offline />
+          <Offline isOnline={isOnline} />
           <Routes>
-            <Route index element={<Home />} />
+            <Route index element={<Home isOnline={isOnline} />} />
             <Route path="beer">
               <Route index element={<BeerList />} />
               <Route path=":id" element={<Beer />} />

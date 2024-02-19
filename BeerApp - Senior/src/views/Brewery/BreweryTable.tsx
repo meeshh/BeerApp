@@ -2,6 +2,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -11,7 +12,6 @@ import { Beer } from "../../types";
 import BreweryTableRow from "./BreweryTableRow";
 import Loader from "../../components/Loader";
 import { FavoritesContext } from "../../contexts/FavoritesContext";
-import { grey } from "@mui/material/colors";
 
 type BreweryTableProps = {
   breweriesList: Beer[];
@@ -33,25 +33,19 @@ const BreweryTable: FC<BreweryTableProps> = ({
     isFavorites && !selectedFavorites.length ? [] : breweriesList;
 
   return (
-    <>
+    <TableContainer sx={{ height: 670, mt: 1 }}>
       <Table
         sx={{
           backgroundColor: "white",
-          mt: 1,
           borderRadius: 3,
-          overflow: "hidden",
         }}
         stickyHeader
       >
-        <TableHead sx={{ backgroundColor: grey[200] }}>
+        <TableHead>
           <TableRow>
-            <TableCell
-              sx={{ backgroundColor: "transparent" }}
-              padding="checkbox"
-            />
+            <TableCell padding="checkbox" />
             <TableCell
               sx={{
-                backgroundColor: "transparent",
                 fontSize: 20,
                 fontWeight: "600",
               }}
@@ -60,7 +54,6 @@ const BreweryTable: FC<BreweryTableProps> = ({
             </TableCell>
             <TableCell
               sx={{
-                backgroundColor: "transparent",
                 fontSize: 20,
                 fontWeight: "600",
               }}
@@ -92,7 +85,7 @@ const BreweryTable: FC<BreweryTableProps> = ({
           <NoBreweriesFound title="No breweries found" />
         )
       }
-    </>
+    </TableContainer>
   );
 };
 export default BreweryTable;

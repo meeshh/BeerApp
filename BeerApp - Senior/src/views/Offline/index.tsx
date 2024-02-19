@@ -1,24 +1,14 @@
 import { Paper, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FC } from "react";
+import { OFFLINE_SECTION_HEIGHT } from "../../styles/constants";
 
-const Offline = () => {
-  const [isOnline, setIsOnline] = useState(true);
+type OfflineProps = {
+  isOnline: boolean;
+};
 
-  const setOnline = () => setIsOnline(true);
-  const setOffline = () => setIsOnline(false);
-
-  useEffect(() => {
-    window.addEventListener("online", setOnline);
-    window.addEventListener("offline", setOffline);
-
-    return () => {
-      window.addEventListener("online", setOnline);
-      window.addEventListener("offline", setOffline);
-    };
-  }, []);
-
+const Offline: FC<OfflineProps> = ({ isOnline }) => {
   return isOnline ? null : (
-    <article>
+    <article style={{ height: OFFLINE_SECTION_HEIGHT }}>
       <Paper
         component="section"
         elevation={3}
