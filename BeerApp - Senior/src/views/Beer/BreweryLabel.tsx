@@ -1,6 +1,6 @@
 import { Avatar, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import React from "react";
+import { FC } from "react";
 
 const avatarWrapperSize = 72
 
@@ -10,7 +10,7 @@ type BeerLabelProps = {
   avatarSize?: number;
 };
 
-const BeerLabel: React.FC<BeerLabelProps> = ({
+const BeerLabel: FC<BeerLabelProps> = ({
   name,
   breweryType,
   avatarSize,

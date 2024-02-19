@@ -1,8 +1,8 @@
 import { Grid, Tooltip, Typography } from "@mui/material";
-import React from "react";
 import { CircleFlag } from "react-circle-flags";
 import { getCountryCode } from "../../utils/country";
 import { Flag } from "@mui/icons-material";
+import { FC } from "react";
 
 type BreweryLocationProps = {
   country?: string;
@@ -10,7 +10,7 @@ type BreweryLocationProps = {
   state?: string;
 };
 
-const BreweryLocation: React.FC<BreweryLocationProps> = ({
+const BreweryLocation: FC<BreweryLocationProps> = ({
   country,
   city,
   state,

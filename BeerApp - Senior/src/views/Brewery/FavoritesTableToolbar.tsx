@@ -1,10 +1,10 @@
 import { DeleteSweep } from "@mui/icons-material";
 import { IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
-import React from "react";
+import { useContext } from "react";
 import { FavoritesContext } from "../../contexts/FavoritesContext";
 
 const FavoritesTableToolbar = () => {
-  const { setSelectedFavorites } = React.useContext(FavoritesContext);
+  const { setSelectedFavorites } = useContext(FavoritesContext);
   const handleRemoveAll = () => {
     setSelectedFavorites([]);
     localStorage.removeItem("selectedBreweries");

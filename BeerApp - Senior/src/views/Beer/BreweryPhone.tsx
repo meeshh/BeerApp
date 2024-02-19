@@ -1,12 +1,12 @@
 import { Phone } from "@mui/icons-material";
 import { Grid, IconButton, Typography } from "@mui/material";
-import React from "react";
+import { FC } from "react";
 
 type BreweryPhoneProps = {
   phone?: string;
 };
 
-const BreweryPhone: React.FC<BreweryPhoneProps> = ({ phone }) => {
+const BreweryPhone: FC<BreweryPhoneProps> = ({ phone }) => {
   if (!phone) {
     return null;
   }

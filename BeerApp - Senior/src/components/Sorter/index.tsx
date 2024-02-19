@@ -8,7 +8,7 @@ import {
   ToggleButtonGroup,
   ToggleButton,
 } from "@mui/material";
-import React from "react";
+import { FC, MouseEvent, useState } from "react";
 import { grey } from "@mui/material/colors";
 import { SORTER_PROPS, SORT_DIRECTION, SORT_TYPE } from "../../types";
 
@@ -18,13 +18,13 @@ type SorterProps = {
   sorterProps: SORTER_PROPS;
 };
 
-const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
+const Sorter: FC<SorterProps> = ({ sorterProps }) => {
   const { sortDirection, setSortDirection, sortType, setSortType, setPage } =
     sorterProps || {};
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -32,7 +32,7 @@ const Sorter: React.FC<SorterProps> = ({ sorterProps }) => {
   };
 
   const handleSortDirection = (
-    _event: React.MouseEvent<HTMLElement>,
+    _event: MouseEvent<HTMLElement>,
     newSortDirection: SORT_DIRECTION
   ) => {
     setSortDirection(newSortDirection);

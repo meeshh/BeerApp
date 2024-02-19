@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import React from "react";
+import { FC, useContext } from "react";
 import { Beer } from "../../types";
 import { FavoritesContext } from "../../contexts/FavoritesContext";
 import { Clear } from "@mui/icons-material";
@@ -17,14 +17,14 @@ type BreweryTableRowProps = {
   isFavorites?: boolean;
 };
 
-const BreweryTableRow: React.FC<BreweryTableRowProps> = ({
+const BreweryTableRow: FC<BreweryTableRowProps> = ({
   brewery,
   isFavorites = false,
 }) => {
   const { id, name, city, state, country, brewery_type, state_province } =
     brewery || {};
   const { selectedFavorites, setSelectedFavorites } =
-    React.useContext(FavoritesContext);
+    useContext(FavoritesContext);
 
   const handleCheckbox = () => {
     if (selectedFavorites.includes(id)) {
@@ -38,7 +38,10 @@ const BreweryTableRow: React.FC<BreweryTableRowProps> = ({
     <TableRow hover>
       <TableCell padding="checkbox">
         {!isFavorites ? (
-          <Checkbox onChange={handleCheckbox} checked={selectedFavorites.includes(id)} />
+          <Checkbox
+            onChange={handleCheckbox}
+            checked={selectedFavorites.includes(id)}
+          />
         ) : (
           <IconButton onClick={handleCheckbox}>
             <Clear />

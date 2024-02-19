@@ -4,7 +4,7 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { IconButton, InputBase, Toolbar, Tooltip, alpha } from "@mui/material";
-import React from "react";
+import { ChangeEvent, FC } from "react";
 import { styled } from "@mui/material/styles";
 import debounce from "lodash.debounce";
 import { blue, grey } from "@mui/material/colors";
@@ -57,7 +57,7 @@ type BreweryTableToolbarProps = {
   favoritesProps: FAVORITE_PROPS;
 };
 
-const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
+const BreweryTableToolbar: FC<BreweryTableToolbarProps> = ({
   setSearchQuery,
   filterProps,
   sorterProps,
@@ -71,14 +71,14 @@ const BreweryTableToolbar: React.FC<BreweryTableToolbarProps> = ({
   }, 500);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     debounceChange(e.target.value);
   };
 
   const handleToggleFilter = () => {
     if (setDisplayFilter) {
-      setDisplayFilter((prev) => !prev);
+      setDisplayFilter((prev: boolean) => !prev);
     }
   };
 

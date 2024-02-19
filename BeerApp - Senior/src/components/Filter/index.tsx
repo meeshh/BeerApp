@@ -8,7 +8,7 @@ import {
   RadioGroup,
   Tooltip,
 } from "@mui/material";
-import React from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { TYPE } from "../../types";
 import { RestartAlt } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
@@ -31,15 +31,15 @@ type FilterComponentProps = {
   defaultValue: TYPE;
 };
 
-const Filter: React.FC<FilterComponentProps> = ({
+const Filter: FC<FilterComponentProps> = ({
   setFilter,
   defaultValue,
 }) => {
-  const [selectedValue, setSelectedValue] = React.useState<TYPE | "">(
+  const [selectedValue, setSelectedValue] = useState<TYPE | "">(
     defaultValue ?? ""
   );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const val = (event.target as HTMLInputElement).value as TYPE;
     setSelectedValue(val);
     setFilter(val);

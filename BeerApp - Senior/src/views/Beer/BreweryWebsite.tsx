@@ -1,12 +1,12 @@
 import { OpenInNew } from "@mui/icons-material";
 import { Grid, IconButton, Typography } from "@mui/material";
-import React from "react";
+import { FC } from "react";
 
 type BreweryWebsiteProps = {
   website?: string;
 };
 
-const BreweryWebsite: React.FC<BreweryWebsiteProps> = ({ website }) => {
+const BreweryWebsite: FC<BreweryWebsiteProps> = ({ website }) => {
   if (!website) return null;
 
   return (

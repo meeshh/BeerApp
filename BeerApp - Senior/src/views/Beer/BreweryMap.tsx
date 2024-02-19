@@ -1,5 +1,5 @@
 import { LocationOff, LocationOn } from "@mui/icons-material";
-import React from "react";
+import { FC } from "react";
 import { MAPS_API } from "../../api/config";
 
 const mapHeight = 600;
@@ -10,7 +10,7 @@ type BreweryMapProps = {
   latitude?: string;
 };
 
-const BreweryMap: React.FC<BreweryMapProps> = ({
+const BreweryMap: FC<BreweryMapProps> = ({
   cardWidth,
   longitude,
   latitude,

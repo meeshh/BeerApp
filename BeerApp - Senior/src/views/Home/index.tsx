@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { searchBreweries } from "./utils";
 import { Paper, TablePagination, Grid } from "@mui/material";
 import BreweryTable from "../Brewery/BreweryTable";
@@ -101,14 +107,14 @@ const Home = () => {
   };
 
   const handlePageChange = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => {
     setPage(page);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setPerPage(parseInt(event.target.value, 10));
     setPage(0);

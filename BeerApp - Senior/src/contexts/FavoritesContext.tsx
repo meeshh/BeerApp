@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import { ReactNode, createContext } from "react";
 
 interface FavoritesContextType {
   selectedFavorites: string[];
@@ -16,10 +16,10 @@ export const FavoritesContext =
 export function FavoritesContextProvider({
   children,
   value,
-}: {
-  children: React.ReactNode;
+}: Readonly<{
+  children: ReactNode;
   value: FavoritesContextType;
-}) {
+}>) {
   return (
     <FavoritesContext.Provider value={value}>
       {children}

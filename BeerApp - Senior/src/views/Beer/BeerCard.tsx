@@ -1,4 +1,4 @@
-import React from "react";
+import { FC, useContext } from "react";
 import { Beer } from "../../types";
 
 import {
@@ -26,9 +26,9 @@ type BeerCardProps = {
   beer?: Beer;
 };
 
-const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
+const BeerCard: FC<BeerCardProps> = ({ beer }) => {
   const { selectedFavorites, setSelectedFavorites } =
-    React.useContext(FavoritesContext);
+    useContext(FavoritesContext);
 
   if (!beer) {
     return null;

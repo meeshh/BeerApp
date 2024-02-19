@@ -6,7 +6,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React from "react";
+import { FC, useContext } from "react";
 import { Beer } from "../../types";
 import BreweryTableRow from "./BreweryTableRow";
 import Loader from "../../components/Loader";
@@ -19,12 +19,12 @@ type BreweryTableProps = {
   isFavorites?: boolean;
 };
 
-const BreweryTable: React.FC<BreweryTableProps> = ({
+const BreweryTable: FC<BreweryTableProps> = ({
   breweriesList,
   isLoading,
   isFavorites,
 }) => {
-  const { selectedFavorites } = React.useContext(FavoritesContext);
+  const { selectedFavorites } = useContext(FavoritesContext);
 
   if (isLoading) return <Loader />;
 
@@ -100,7 +100,7 @@ export default BreweryTable;
 type NoBreweriesProps = {
   title: string;
 };
-const NoBreweriesFound: React.FC<NoBreweriesProps> = ({ title }) => {
+const NoBreweriesFound: FC<NoBreweriesProps> = ({ title }) => {
   return (
     <Typography
       sx={{ textAlign: "center", p: 3 }}

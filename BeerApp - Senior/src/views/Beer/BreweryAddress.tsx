@@ -1,6 +1,6 @@
 import { Directions, LocationOn } from "@mui/icons-material";
 import { Grid, IconButton, Typography } from "@mui/material";
-import React from "react";
+import { FC } from "react";
 
 type BreweryAddressProps = {
   address?: string;
@@ -8,7 +8,7 @@ type BreweryAddressProps = {
   longitude?: string;
 };
 
-const BreweryAddress: React.FC<BreweryAddressProps> = ({
+const BreweryAddress: FC<BreweryAddressProps> = ({
   address,
   latitude,
   longitude,

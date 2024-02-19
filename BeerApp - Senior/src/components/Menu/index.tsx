@@ -1,10 +1,11 @@
 import { Box, Toolbar } from "@mui/material";
 import TopBar from "../TopBar";
+import { ReactNode } from "react";
 
 const drawerWidth = 240;
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function ResponsiveDrawer(props: Readonly<Props>) {
